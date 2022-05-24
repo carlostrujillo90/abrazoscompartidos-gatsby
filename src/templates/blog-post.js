@@ -3,6 +3,7 @@ import { jsx } from "theme-ui"
 import { Link, graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { RiArrowRightLine, RiArrowLeftLine } from "react-icons/ri"
+import { DiscussionEmbed } from "disqus-react"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -70,6 +71,10 @@ const Pagination = props => (
 const Post = ({ data, pageContext }) => {
   const { markdownRemark } = data // data.markdownRemark holds your post data
   const { frontmatter, html, excerpt } = markdownRemark
+  const disqusConfig = {
+    shortname: "abrazoscompartidos",
+    config: { identifier: frontmatter.slug },
+  }
 
   const Image = frontmatter.featuredImage
     ? frontmatter.featuredImage.childImageSharp.gatsbyImageData
@@ -113,6 +118,7 @@ const Post = ({ data, pageContext }) => {
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </article>
+      <DiscussionEmbed {...disqusConfig} />
       {(previous || next) && <Pagination {...props} />}
     </Layout>
   )
